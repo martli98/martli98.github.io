@@ -17,6 +17,10 @@ jobs:
           node-version: '14.x'
       - name: Install dependencies
         run: npm ci
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Run tests
         run: npm test
       - name: Run typescript lint and format check
@@ -25,7 +29,7 @@ jobs:
         run: npm run lint:css
 
   deploy:
-    needs: build
+    needs: [build, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
